@@ -15,13 +15,13 @@ Mobile media watchlist developed for CMPE-137 Spring 2026 class final project.
 - Give a rating to movies/shows that you watch
 
 ## Project Structure
-lib
+lib  
 ├─ classes  
 │  └─ themes.dart  
 ├─ pages  
-│  ├─ add_screen.dart
-│  ├─ home_screen.dart
-│  └─ item_screen.dart
+│  ├─ add_screen.dart  
+│  ├─ home_screen.dart  
+│  └─ item_screen.dart  
 ├─ utils  
 ├─ widgets  
 └─ main.dart  
