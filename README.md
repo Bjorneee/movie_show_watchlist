@@ -1,17 +1,27 @@
-# movie_show_watchlist
+# Movie/Show Watchlist
 
-A new Flutter project.
+Mobile media watchlist developed for CMPE-137 Spring 2026 class final project.
 
-## Getting Started
+## Developed By
+- Anh Khoi Pham
+- Benicio Marenco
+- Hoang Nhat Ho
+- Matt Joshua Saquiton
 
-This project is a starting point for a Flutter application.
+## App Features
+- Manually enter details of movies/shows you want to watch
+- View your list of entries to keep track of what you still need to watch
+- Mark entries as watched/watching/dropped for better organization
+- Give a rating to movies/shows that you watch
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Project Structure
+lib
+├─ classes  
+│  └─ themes.dart  
+├─ pages  
+│  ├─ add_screen.dart
+│  ├─ home_screen.dart
+│  └─ item_screen.dart
+├─ utils  
+├─ widgets  
+└─ main.dart  
