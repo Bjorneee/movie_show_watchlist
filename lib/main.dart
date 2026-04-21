@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:window_manager/window_manager.dart';
+import 'package:device_preview/device_preview.dart';
 
 // Pages
 import 'package:movie_show_watchlist/pages/home_screen.dart';
@@ -32,7 +34,12 @@ void main() async{
     await windowManager.focus();
   });
 
-  runApp(const App());
+  runApp(
+    DevicePreview(
+      enabled: !kReleaseMode,
+      builder: (context) => App(),
+    )
+  );
 }
 
 class App extends StatelessWidget {
@@ -41,6 +48,8 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      locale: DevicePreview.locale(context),
+      builder: DevicePreview.appBuilder,
       title: 'My Watch List',
       theme: defaultDarkTheme(),
       home: PageHandler(),
@@ -112,6 +121,7 @@ class _PageHandler extends State<PageHandler> {
           ),
         ),
         bottomNavigationBar: NavigationBar(
+          labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
           selectedIndex: _currPageIndex,
           onDestinationSelected: (int idx) {
             setState(() {
@@ -121,9 +131,9 @@ class _PageHandler extends State<PageHandler> {
           },
           destinations: const <Widget>[
 
-            NavigationDestination(icon: Icon(Icons.home), label: ''),
-            NavigationDestination(icon: Icon(Icons.add), label: ''),
-            NavigationDestination(icon: Icon(Icons.menu), label: '')
+            NavigationDestination(icon: Icon(Icons.home), label: '', tooltip: '',),
+            NavigationDestination(icon: Icon(Icons.add), label: '', tooltip: '',),
+            NavigationDestination(icon: Icon(Icons.menu), label: '', tooltip: '',)
 
           ],
         ),
