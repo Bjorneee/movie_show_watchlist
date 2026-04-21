@@ -26,7 +26,7 @@ void main() async{
   //app is crashing during startup before Flutter reaches your runApp due to windowManager
   //Android doesn't support this plugin
   //only run window_manager on desktop (NOT Android / iOS)
-  if (!kIsWeb && (Platform.isMacOS || Platform.isLinux)) {
+  if (!kIsWeb && (Platform.isMacOS || Platform.isLinux || Platform.isWindows)) {
     await windowManager.ensureInitialized();
 
     WindowOptions windowOptions = const WindowOptions(
