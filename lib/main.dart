@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -20,19 +22,26 @@ final AppModel userAppModel = AppModel();
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  await windowManager.ensureInitialized();
 
-  WindowOptions windowOptions = const WindowOptions(
-    size: phoneScreenSize,
-    minimumSize: phoneScreenSize,
-    maximumSize: phoneScreenSize,
-    center: true
-  );
+  //app is crashing during startup before Flutter reaches your runApp due to windowManager
+  //Android doesn't support this plugin
+  //only run window_manager on desktop (NOT Android / iOS)
+  if (!kIsWeb && (Platform.isMacOS || Platform.isLinux)) {
+    await windowManager.ensureInitialized();
 
-  windowManager.waitUntilReadyToShow(windowOptions, () async {
-    await windowManager.show();
-    await windowManager.focus();
-  });
+    WindowOptions windowOptions = const WindowOptions(
+        size: phoneScreenSize,
+        minimumSize: phoneScreenSize,
+        maximumSize: phoneScreenSize,
+        center: true
+    );
+
+    windowManager.waitUntilReadyToShow(windowOptions, () async {
+      await windowManager.show();
+      await windowManager.focus();
+    });
+  }
+
 
   runApp(
     DevicePreview(
