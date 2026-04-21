@@ -41,6 +41,9 @@ dependencies:
   # Allow window size restrictions
   window_manager: ^0.4.3
 
+  # Background container for data
+  scoped_model: ^2.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
