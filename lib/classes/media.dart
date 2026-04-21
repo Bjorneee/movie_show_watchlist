@@ -26,10 +26,14 @@ enum Genre {
 }
 
 enum Status {
-  notWatched,
-  watching,
-  watched,
-  dropped
+  notWatched('Not Watched', Colors.transparent),
+  watching('Watching', Color.fromARGB(255, 0, 130, 4)),
+  watched('Watched', Colors.black),
+  dropped('Dropped', Color.fromARGB(255, 130, 4, 0));
+
+  final String string;
+  final Color color;
+  const Status(this.string, this.color);
 }
 
 class Media {
@@ -37,14 +41,14 @@ class Media {
   String title;
   List<Genre>? genres;
   List<String>? directors;
-  AssetImage? coverImage;
+  String? coverImagePath;
   Status status;
 
   Media ({
     required this.title,
     this.genres,
     this.directors,
-    this.coverImage,
+    this.coverImagePath,
     this.status = Status.notWatched
   });
 
