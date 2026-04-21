@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:movie_show_watchlist/pages/item_screen.dart';
 import 'package:window_manager/window_manager.dart';
-
+import 'package:movie_show_watchlist/pages/item_screen.dart';
 // Pages
 import 'package:movie_show_watchlist/pages/home_screen.dart';
 
@@ -9,7 +10,7 @@ import 'package:movie_show_watchlist/classes/themes.dart';
 
 const Size phoneScreenSize = Size(402, 874);
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await windowManager.ensureInitialized();
 
@@ -17,7 +18,7 @@ void main() async{
     size: phoneScreenSize,
     minimumSize: phoneScreenSize,
     maximumSize: phoneScreenSize,
-    center: true
+    center: true,
   );
 
   windowManager.waitUntilReadyToShow(windowOptions, () async {
@@ -36,7 +37,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'My Watch List',
       theme: defaultDarkTheme(),
-      home: HomeScreen(),
+      home: ItemScreen(),
     );
   }
 }
