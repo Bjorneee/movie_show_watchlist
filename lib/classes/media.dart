@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 enum Genre {
   action,
   adventure,
+  animation,
   biography,
   comedy,
   crime,
