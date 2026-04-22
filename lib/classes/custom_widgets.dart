@@ -103,7 +103,28 @@ class MediaCard extends StatelessWidget {
 }
 
 
+class NavButton extends StatelessWidget {
 
+  final double width;
+  final double height;
+  final Icon icon;
+
+  const NavButton ({
+    super.key,
+    this.width = 50,
+    this.height = 50,
+    required this.icon
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: width,
+      height: height,
+      child: NavigationDestination(icon: icon, label: '', tooltip: ''),
+    );
+  }
+}
 
 
 /* ======================================================

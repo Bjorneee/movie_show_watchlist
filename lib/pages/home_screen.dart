@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_show_watchlist/classes/media.dart';
 import 'package:movie_show_watchlist/classes/model.dart';
 import 'package:movie_show_watchlist/classes/custom_widgets.dart';
+import 'package:movie_show_watchlist/main.dart';
 
 final Media test = Media(
   title: 'The Movie',
@@ -23,11 +24,14 @@ class _HomeScreen extends State<HomeScreen> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text('My Watch List'),
+      ),
       body: Center(
         child: SizedBox(
           width: 200,
-          height: 50,
-          child: ElevatedButton(onPressed: () {}, child: Text('Test')),
+          height: 300,
+          child: ListTile()
         )
       )
     );
