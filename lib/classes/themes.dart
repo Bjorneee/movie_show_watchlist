@@ -169,7 +169,7 @@ ThemeData defaultDarkTheme() {
       shadowColor: scheme.shadow.withValues(alpha: 0.40),
       elevation: 10,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(6),
         side: BorderSide(
           color: scheme.outline.withValues(alpha: 0.35),
         ),
