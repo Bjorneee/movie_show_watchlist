@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_show_watchlist/classes/media.dart';
 import 'package:movie_show_watchlist/classes/model.dart';
 import 'package:movie_show_watchlist/classes/custom_widgets.dart';
+import 'package:movie_show_watchlist/main.dart';
 
 //test cards
 final List<Media> testList = [
