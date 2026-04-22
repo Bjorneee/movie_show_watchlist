@@ -11,6 +11,9 @@ abstract class Env {
     @EnviedField(varName: 'BASE_URL')
     static const String baseURL = _Env.baseURL;
 
+    @EnviedField(varName: 'IMAGE_BASE')
+    static const String imageBaseURL = _Env.imageBaseURL;
+
     @EnviedField(varName: 'MAX_RETRIES')
     static const int maxRetries = _Env.maxRetries;
 

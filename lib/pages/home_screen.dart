@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_show_watchlist/classes/media.dart';
 import 'package:movie_show_watchlist/classes/model.dart';
 import 'package:movie_show_watchlist/classes/custom_widgets.dart';
+import 'package:movie_show_watchlist/api/tmdb_api.dart';
 
 final Media test = Media(
   title: 'The Movie',
@@ -18,13 +19,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreen extends State<HomeScreen> {
+
   
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
       body: Center(
-        child: MediaCard(width: 170, height: 247, mediaItem: test) // Test card. Remove as needed.
+        child: SearchBar(
+          onSubmitted: (query) async {
+            final movies = await searchTV(query);
+            for (var movie in movies) {
+              print(movie['name']);
+            }
+          },
+        )
       )
     );
   }
