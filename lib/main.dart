@@ -2,6 +2,7 @@ import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_show_watchlist/classes/custom_widgets.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:device_preview/device_preview.dart';
@@ -129,23 +130,34 @@ class _PageHandler extends State<PageHandler> {
             ]
           ),
         ),
-        bottomNavigationBar: NavigationBar(
-          labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
-          selectedIndex: _currPageIndex,
-          onDestinationSelected: (int idx) {
-            setState(() {
-              _prevPageIndex = _currPageIndex;
-              _currPageIndex = idx;
-            });
-          },
-          destinations: const <Widget>[
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            border: Border(
+              top: BorderSide(
+                width: 1,
+                color: Theme.of(context).colorScheme.surfaceContainerHighest
+              )
+            )
+          ),
+          child: NavigationBar(
+            height: 50,
+            labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+            selectedIndex: _currPageIndex,
+            onDestinationSelected: (int idx) {
+              setState(() {
+                _prevPageIndex = _currPageIndex;
+                _currPageIndex = idx;
+              });
+            },
+            destinations: const <Widget>[
 
-            NavigationDestination(icon: Icon(Icons.home), label: '', tooltip: '',),
-            NavigationDestination(icon: Icon(Icons.add), label: '', tooltip: '',),
-            NavigationDestination(icon: Icon(Icons.menu), label: '', tooltip: '',)
+              NavButton(width: 100, icon: Icon(Icons.home)),
+              NavButton(icon: Icon(Icons.add)),
+              NavButton(icon: Icon(Icons.menu))
 
-          ],
-        ),
+            ],
+          ),
+        )
       )
     );
   }
