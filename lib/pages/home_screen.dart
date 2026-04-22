@@ -33,13 +33,7 @@ class _HomeScreen extends State<HomeScreen> {
     }).toList();
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-            "My Watch List",
-            style: TextStyle(fontSize: 40),
-        ),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: Text("My Watch List")),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -49,9 +43,7 @@ class _HomeScreen extends State<HomeScreen> {
               Row(            //search bar on the top
                 children: [
                   Expanded(
-                      child: SearchBar(
-                        hintText: "Search..",
-                      )
+                      child: SearchBar().showAll()
                   ),
                   SizedBox(width: 10),
                   IconButton(
