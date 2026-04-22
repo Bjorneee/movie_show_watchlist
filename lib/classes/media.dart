@@ -36,20 +36,25 @@ enum Status {
   const Status(this.string, this.color);
 }
 
-class Media {
+enum MediaType {
+  movies,
+  tvShows;
+}
 
+class Media {
   String title;
   List<Genre>? genres;
   List<String>? directors;
   String? coverImagePath;
   Status status;
+  final MediaType type;
 
   Media ({
     required this.title,
     this.genres,
     this.directors,
     this.coverImagePath,
-    this.status = Status.notWatched
+    this.status = Status.notWatched,
+    required this.type
   });
-
 }
