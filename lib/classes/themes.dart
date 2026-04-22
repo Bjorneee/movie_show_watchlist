@@ -178,7 +178,7 @@ ThemeData defaultDarkTheme() {
     ),
 
     searchBarTheme: SearchBarThemeData(
-      backgroundColor: WidgetStatePropertyAll(scheme.surfaceContainerHighest),
+      backgroundColor: WidgetStatePropertyAll(scheme.secondaryContainer),
       surfaceTintColor: const WidgetStatePropertyAll(Colors.transparent),
       shadowColor: WidgetStatePropertyAll(
         scheme.shadow.withValues(alpha: 0.35),
@@ -195,14 +195,15 @@ ThemeData defaultDarkTheme() {
       hintStyle: WidgetStatePropertyAll(
         TextStyle(
           fontFamily: 'Inter',
-          fontSize: 15,
-          fontWeight: FontWeight.w500,
+          fontSize: 20,
+          fontWeight: FontWeight.w400,
+          fontStyle: .italic,
           color: scheme.onSurfaceVariant,
         ),
       ),
       shape: WidgetStatePropertyAll(
         RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(50),
           side: BorderSide(
             color: scheme.outline.withValues(alpha: 0.45),
           ),

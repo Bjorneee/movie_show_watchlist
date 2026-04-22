@@ -5,7 +5,7 @@ import 'package:movie_show_watchlist/classes/media.dart';
 
 /* ======================================================
  * 
- *                  CONTAINERS TO USE
+ *                      CONTAINERS
  * 
  ======================================================== */
 
@@ -33,8 +33,7 @@ import 'package:movie_show_watchlist/classes/media.dart';
  * Details: Displays the current movie cover or
  *          title if no cover exists.
  * 
- */
-
+ * ====================================================*/
 class MediaCard extends StatelessWidget {
 
   final double? width;
@@ -103,6 +102,37 @@ class MediaCard extends StatelessWidget {
   }
 }
 
+
+
+
+
+/* ======================================================
+ * 
+ *       EXTENSIONS (Append to corresponding Widget)
+ * 
+ ======================================================== */
+
+
+
+/* =================== SearchBar =====================
+ * 
+ * showAll(): Displays search icon and 'Search' hint
+ *              text on search bar.
+ * 
+ * =================================================== */
+extension SearchExtensions on SearchBar {
+
+  // Ex: SearchBar(/* List any additional properties here */).showAll()
+  SearchBar showAll() {
+    return SearchBar(
+      leading: Icon(
+        Icons.search,
+        size: 35,
+      ),
+      hintText: 'Search',
+    );
+  }
+}
 
 
 /* ======================================================

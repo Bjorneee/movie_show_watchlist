@@ -24,7 +24,7 @@ class _HomeScreen extends State<HomeScreen> {
 
     return Scaffold(
       body: Center(
-        child: MediaCard(width: 170, height: 247, mediaItem: test) // Test card. Remove as needed.
+        child: SearchBar().showAll()
       )
     );
   }
