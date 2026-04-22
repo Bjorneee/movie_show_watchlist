@@ -24,7 +24,11 @@ class _HomeScreen extends State<HomeScreen> {
 
     return Scaffold(
       body: Center(
-        child: SearchBar().showAll()
+        child: SizedBox(
+          width: 200,
+          height: 50,
+          child: ElevatedButton(onPressed: () {}, child: Text('Test')),
+        )
       )
     );
   }

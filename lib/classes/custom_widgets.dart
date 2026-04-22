@@ -125,10 +125,7 @@ extension SearchExtensions on SearchBar {
   // Ex: SearchBar(/* List any additional properties here */).showAll()
   SearchBar showAll() {
     return SearchBar(
-      leading: Icon(
-        Icons.search,
-        size: 35,
-      ),
+      leading: Icon(Icons.search),
       hintText: 'Search',
     );
   }

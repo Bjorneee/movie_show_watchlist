@@ -276,6 +276,7 @@ ThemeData defaultDarkTheme() {
 
     iconTheme: IconThemeData(
       color: scheme.onSurfaceVariant,
+      size: 35
     ),
 
     listTileTheme: ListTileThemeData(
@@ -355,7 +356,7 @@ ThemeData defaultDarkTheme() {
         textStyle: const TextStyle(
           fontFamily: 'Inter',
           fontWeight: FontWeight.w600,
-          fontSize: 15,
+          fontSize: 18,
         ),
       ),
     ),
