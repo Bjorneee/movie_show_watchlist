@@ -144,10 +144,11 @@ class NavButton extends StatelessWidget {
 extension SearchExtensions on SearchBar {
 
   // Ex: SearchBar(/* List any additional properties here */).showAll()
-  SearchBar showAll() {
+  SearchBar showAll({Function(String)? onChanged}) {
     return SearchBar(
       leading: Icon(Icons.search),
       hintText: 'Search',
+      onChanged: onChanged,
     );
   }
 }
