@@ -24,6 +24,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreen extends State<HomeScreen> {
   int selectTab = 0; // 0 = default, 1 = movies, 2 = shows
   Genre? selectGenre;
+  String searchQuery = "";
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +36,7 @@ class _HomeScreen extends State<HomeScreen> {
       if (selectTab == 2 && m.type != MediaType.tvShows) {
         return false;
       }
+
       //genres filter
       if (selectGenre != null) {
         if (m.genres == null) {
@@ -44,6 +46,14 @@ class _HomeScreen extends State<HomeScreen> {
           return false;
         }
       }
+
+      //search added movie/tv show filter
+      if (searchQuery.isNotEmpty) {
+        if (!m.title.toLowerCase().contains(searchQuery)) {
+          return false;
+        }
+      }
+
       return true;
     }).toList();
 
@@ -58,7 +68,13 @@ class _HomeScreen extends State<HomeScreen> {
               Row(            //search bar on the top
                 children: [
                   Expanded(
-                      child: SearchBar().showAll()
+                      child: SearchBar().showAll(
+                        onChanged: (value) {
+                          setState(() {
+                            searchQuery = value.toLowerCase();
+                          });
+                        }
+                      )
                   ),
                   SizedBox(width: 10),
                   IconButton(
