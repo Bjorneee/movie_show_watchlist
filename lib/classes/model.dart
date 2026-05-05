@@ -10,6 +10,9 @@ class AppModel extends Model {
   List<Media> get movieList => _movieList;
   List<Media> get showList => _showList;
 
+  Media? _selectedMedia;
+  Media? get selectedMedia => _selectedMedia;
+
   /* Add a movie to the movie list */
   void addMovie(Media movie) {
     _movieList.add(movie);
@@ -43,6 +46,12 @@ class AppModel extends Model {
   /* Mark a movie/show as dropped */
   void markDropped(List<Media> list, int idx) {
     list[idx].status = Status.dropped;
+    notifyListeners();
+  }
+
+  /* Select a media */
+  void selectMedia(Media? media) {
+    _selectedMedia = media;
     notifyListeners();
   }
 }

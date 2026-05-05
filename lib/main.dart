@@ -123,10 +123,30 @@ class _PageHandler extends State<PageHandler> {
             index: _currPageIndex,
             children: [
 
-              HomeScreen(model: userAppModel),
+              HomeScreen(
+                model: userAppModel,
+                  onTabChange: (index) {
+                  setState(() {
+                    _prevPageIndex = _currPageIndex;
+                    _currPageIndex = index;
+                  });
+                }
+              ),
               AddScreen(model: userAppModel),
-              ItemScreen(model: userAppModel)
-
+              ScopedModelDescendant<AppModel>(      //refresh item_screen when switching
+                builder: (context, child, model) {
+                  return ItemScreen(
+                    model: userAppModel,
+                    media: model.selectedMedia,
+                    onTabChange: (index) {
+                      setState(() {
+                        _prevPageIndex = _currPageIndex;
+                        _currPageIndex = index;
+                      });
+                    },
+                  );
+                },
+              )
             ]
           ),
         ),
