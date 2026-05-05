@@ -5,7 +5,7 @@ import 'package:movie_show_watchlist/classes/media.dart';
 
 /* ======================================================
  * 
- *                  CONTAINERS TO USE
+ *                      CONTAINERS
  * 
  ======================================================== */
 
@@ -33,8 +33,7 @@ import 'package:movie_show_watchlist/classes/media.dart';
  * Details: Displays the current movie cover or
  *          title if no cover exists.
  * 
- */
-
+ * ====================================================*/
 class MediaCard extends StatelessWidget {
 
   final double? width;
@@ -103,6 +102,56 @@ class MediaCard extends StatelessWidget {
   }
 }
 
+
+class NavButton extends StatelessWidget {
+
+  final double width;
+  final double height;
+  final Icon icon;
+
+  const NavButton ({
+    super.key,
+    this.width = 50,
+    this.height = 50,
+    required this.icon
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: width,
+      height: height,
+      child: NavigationDestination(icon: icon, label: '', tooltip: ''),
+    );
+  }
+}
+
+
+/* ======================================================
+ * 
+ *       EXTENSIONS (Append to corresponding Widget)
+ * 
+ ======================================================== */
+
+
+
+/* =================== SearchBar =====================
+ * 
+ * showAll(): Displays search icon and 'Search' hint
+ *              text on search bar.
+ * 
+ * =================================================== */
+extension SearchExtensions on SearchBar {
+
+  // Ex: SearchBar(/* List any additional properties here */).showAll()
+  SearchBar showAll({Function(String)? onChanged}) {
+    return SearchBar(
+      leading: Icon(Icons.search),
+      hintText: 'Search',
+      onChanged: onChanged,
+    );
+  }
+}
 
 
 /* ======================================================

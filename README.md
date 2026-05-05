@@ -15,13 +15,21 @@ Mobile media watchlist developed for CMPE-137 Spring 2026 class final project.
 - Give a rating to movies/shows that you watch
 
 ## Project Structure
-lib  
-├─ classes  
-│  └─ themes.dart  
-├─ pages  
-│  ├─ add_screen.dart  
-│  ├─ home_screen.dart  
-│  └─ item_screen.dart  
-├─ utils  
-├─ widgets  
-└─ main.dart  
+
+```
+movie_show_watchlist
+├── lib/           
+|   ├── classes/              
+|       ├── custom_widgets.dart        # UI components (buttons, cards,..) 
+|       ├── media.dart                 # Media structure, fields, helpers
+|       ├── model.dart                 # Model logic
+|       └── themes.dart                # Theme setup
+|   ├── pages
+|       ├── add_screen.dart            # Screen for adding new item
+|       ├── home_screen.dart           # Display homepage
+|       └── item_screen.dart           # Display movie / TV show in detals
+|   └── main.dart
+├── pubspec.yaml                       # Define dependencies, assets, and project settings
+├── ...                                # Other files
+└── README.md                          # Overiew and instructions
+```

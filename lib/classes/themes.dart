@@ -148,11 +148,11 @@ ThemeData defaultDarkTheme() {
       surfaceTintColor: Colors.transparent,
       shadowColor: Colors.transparent,
       elevation: 0,
-      centerTitle: false,
+      centerTitle: true,
       titleTextStyle: TextStyle(
         fontFamily: 'Poppins',
-        fontSize: 22,
-        fontWeight: FontWeight.w600,
+        fontSize: 36,
+        fontWeight: FontWeight.w700,
         color: scheme.onSurface,
       ),
       iconTheme: IconThemeData(
@@ -178,7 +178,7 @@ ThemeData defaultDarkTheme() {
     ),
 
     searchBarTheme: SearchBarThemeData(
-      backgroundColor: WidgetStatePropertyAll(scheme.surfaceContainerHighest),
+      backgroundColor: WidgetStatePropertyAll(scheme.secondaryContainer),
       surfaceTintColor: const WidgetStatePropertyAll(Colors.transparent),
       shadowColor: WidgetStatePropertyAll(
         scheme.shadow.withValues(alpha: 0.35),
@@ -195,14 +195,15 @@ ThemeData defaultDarkTheme() {
       hintStyle: WidgetStatePropertyAll(
         TextStyle(
           fontFamily: 'Inter',
-          fontSize: 15,
-          fontWeight: FontWeight.w500,
+          fontSize: 20,
+          fontWeight: FontWeight.w400,
+          fontStyle: .italic,
           color: scheme.onSurfaceVariant,
         ),
       ),
       shape: WidgetStatePropertyAll(
         RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(50),
           side: BorderSide(
             color: scheme.outline.withValues(alpha: 0.45),
           ),
@@ -275,6 +276,7 @@ ThemeData defaultDarkTheme() {
 
     iconTheme: IconThemeData(
       color: scheme.onSurfaceVariant,
+      size: 35
     ),
 
     listTileTheme: ListTileThemeData(
@@ -299,8 +301,8 @@ ThemeData defaultDarkTheme() {
     ),
 
     navigationBarTheme: NavigationBarThemeData(
-      backgroundColor: scheme.surfaceContainerLow,
-      indicatorColor: scheme.primaryContainer.withValues(alpha: 0.45),
+      backgroundColor: Color(0xFF0F172A),
+      indicatorColor: Colors.transparent,
       iconTheme: WidgetStateProperty.resolveWith((states) {
         if (states.contains(WidgetState.selected)) {
           return IconThemeData(color: scheme.secondary);
@@ -309,13 +311,7 @@ ThemeData defaultDarkTheme() {
       }),
       labelTextStyle: WidgetStateProperty.resolveWith((states) {
         return TextStyle(
-          fontFamily: 'Inter',
-          fontWeight: states.contains(WidgetState.selected)
-              ? FontWeight.w600
-              : FontWeight.w500,
-          color: states.contains(WidgetState.selected)
-              ? scheme.onSurface
-              : scheme.onSurfaceVariant,
+          fontSize: 0
         );
       }),
     ),
@@ -354,7 +350,7 @@ ThemeData defaultDarkTheme() {
         textStyle: const TextStyle(
           fontFamily: 'Inter',
           fontWeight: FontWeight.w600,
-          fontSize: 15,
+          fontSize: 18,
         ),
       ),
     ),
@@ -365,6 +361,7 @@ ThemeData defaultDarkTheme() {
         textStyle: const TextStyle(
           fontFamily: 'Inter',
           fontWeight: FontWeight.w600,
+          fontSize: 18
         ),
       ),
     ),
