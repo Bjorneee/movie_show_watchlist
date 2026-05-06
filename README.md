@@ -4,9 +4,9 @@ Mobile media watchlist developed for CMPE-137 Spring 2026 class final project.
 
 ## Developed By
 - Anh Khoi Pham
-- Benicio Marenco
-- Hoang Nhat Ho
-- Matt Joshua Saquiton
+- Benicio Marenco (Bjorneee)
+- Hoang Nhat Ho (supernova0216)
+- Matt Joshua Saquiton (PsydookMJ)
 
 ## App Features
 - Manually enter details of movies/shows you want to watch

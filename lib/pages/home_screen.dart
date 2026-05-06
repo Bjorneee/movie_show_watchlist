@@ -14,7 +14,8 @@ final List<Media> testList = [
 class HomeScreen extends StatefulWidget {
 
   final AppModel model;
-  const HomeScreen({super.key, required this.model});
+  final Function(int)? onTabChange;
+  const HomeScreen({super.key, required this.model, this.onTabChange});
 
   @override
   State<HomeScreen> createState() => _HomeScreen();
@@ -145,8 +146,14 @@ class _HomeScreen extends State<HomeScreen> {
                         crossAxisCount: 2,
                       ),
                       itemBuilder: (context, index) {
+                        final Media media = filteredList[index];
                         return MediaCard(
-                            mediaItem: filteredList[index]
+                          mediaItem: media,
+                          onClick: () {
+                            widget.model.selectMedia(media);
+                            //switch to item_screen tab after click media card in home page
+                            widget.onTabChange?.call(2);
+                          },
                         );
                       }
                   )
