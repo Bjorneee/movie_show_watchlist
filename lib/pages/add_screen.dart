@@ -210,8 +210,6 @@ class _AddScreen extends State<AddScreen> {
                                 itemBuilder: (BuildContext context, int index) {
 
                                   final media = snapshot.data![index];
-                                  final genres = media.genres ?? [];
-                                  final directors = media.directors ?? [];
 
                                   return MediaListTile(
                                     mediaItem: media,

@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_show_watchlist/classes/custom_widgets.dart';
-import 'package:movie_show_watchlist/classes/media.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:device_preview/device_preview.dart';
