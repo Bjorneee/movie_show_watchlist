@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_show_watchlist/classes/media.dart';
 
@@ -127,6 +128,87 @@ class NavButton extends StatelessWidget {
 }
 
 
+class MediaListTile extends StatefulWidget {
+  final Media mediaItem;
+  final VoidCallback? onClick;
+
+  const MediaListTile({
+    super.key,
+    required this.mediaItem,
+    this.onClick,
+  });
+
+  @override
+  State<MediaListTile> createState() => _MediaListTile();
+}
+
+class _MediaListTile extends State<MediaListTile> {
+
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: widget.onClick,
+      child: MouseRegion(
+        onEnter: (_) => setState(() => _isHovered = true),
+        onExit: (_) => setState(() => _isHovered = false),
+        child: Container(
+          height: 150,
+          padding: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: (_isHovered)
+              ? Theme.of(context).colorScheme.outlineVariant 
+              : Theme.of(context).colorScheme.outline,
+            border: Border(
+              top: BorderSide(
+                color: Theme.of(context).colorScheme.surfaceContainerLowest,
+                width: 2
+              ),
+              bottom: BorderSide(
+                color: Theme.of(context).colorScheme.surfaceContainerLowest,
+                width: 2
+              )
+            )
+          ),
+          child: Row(
+            mainAxisAlignment: .spaceBetween,
+            crossAxisAlignment: .center,
+            children: [
+
+              SizedBox(
+                width: 80,
+                height: 120,
+                child: (widget.mediaItem.posterPath != null && widget.mediaItem.posterPath != "")
+                  ? Image.network(widget.mediaItem.posterPath ?? "")
+                  : Icon(Icons.movie)
+              ),
+
+              Container(
+                width: 275,
+                height: 120,
+                padding: EdgeInsets.all(10),
+                alignment: .center,
+                child: AutoSizeText(
+                  widget.mediaItem.title,
+                  minFontSize: 16,
+                  maxFontSize: 24,
+                  maxLines: 2,
+                  overflow: .fade,
+                )
+              )
+
+            ]
+          )
+        )
+      )
+    );
+  }
+}
+
+
 /* ======================================================
  * 
  *       EXTENSIONS (Append to corresponding Widget)
@@ -144,10 +226,12 @@ class NavButton extends StatelessWidget {
 extension SearchExtensions on SearchBar {
 
   // Ex: SearchBar(/* List any additional properties here */).showAll()
-  SearchBar showAll({Function(String)? onChanged}) {
+  SearchBar showAll({Function()? onTap, Function(PointerDownEvent)? onTapOutside, Function(String)? onChanged}) {
     return SearchBar(
       leading: Icon(Icons.search),
       hintText: 'Search',
+      onTap: onTap,
+      onTapOutside: onTapOutside,
       onChanged: onChanged,
     );
   }

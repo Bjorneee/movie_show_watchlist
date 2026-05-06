@@ -119,7 +119,7 @@ class Media {
 
 }
 
-class TmdbModel extends Model {
+mixin TmdbModel on Model {
 
   List<Media> _tmdbMovies = [];
   List<Media> _tmdbShows = [];

@@ -38,6 +38,9 @@ dependencies:
   # Add google fonts to project
   google_fonts: ^8.0.2
 
+  # Auto size text
+  auto_size_text: ^3.0.0
+
   # Allow window size restrictions
   window_manager: ^0.4.3
 

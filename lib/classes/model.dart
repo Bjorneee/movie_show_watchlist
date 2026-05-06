@@ -2,7 +2,7 @@ import 'package:scoped_model/scoped_model.dart';
 
 import 'package:movie_show_watchlist/classes/media.dart';
 
-class AppModel extends Model {
+mixin AppModel on Model {
 
   List<Media> _movieList = [];
   List<Media> _showList = [];
@@ -46,3 +46,6 @@ class AppModel extends Model {
     notifyListeners();
   }
 }
+
+
+class MainModel extends Model with AppModel, TmdbModel {}

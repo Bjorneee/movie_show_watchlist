@@ -20,8 +20,8 @@ import 'package:movie_show_watchlist/classes/themes.dart';
 import 'package:movie_show_watchlist/classes/model.dart';
 
 const Size phoneScreenSize = Size(402, 874);
-final AppModel userAppModel = AppModel();
-final TmdbModel tmdbModel = TmdbModel();
+
+final MainModel mainModel = MainModel();
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -82,86 +82,83 @@ class _PageHandler extends State<PageHandler> {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModel<AppModel> (
-      model: userAppModel,
-      child: ScopedModel<TmdbModel> (
-        model: tmdbModel,
-        child: Scaffold(
-          extendBody: true,
-          body: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 250),
-            switchInCurve: Curves.easeIn,
-            switchOutCurve: Curves.easeOut,
-            transitionBuilder: (Widget child, Animation<double> animation) {
-              
-              Offset begin = (_currPageIndex > _prevPageIndex) 
-                ? const Offset(1, 0)
-                : const Offset(-1, 0);
+    return ScopedModel<MainModel> (
+      model: mainModel,
+      child: Scaffold(
+        extendBody: true,
+        body: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 250),
+          switchInCurve: Curves.easeIn,
+          switchOutCurve: Curves.easeOut,
+          transitionBuilder: (Widget child, Animation<double> animation) {
+            
+            Offset begin = (_currPageIndex > _prevPageIndex) 
+              ? const Offset(1, 0)
+              : const Offset(-1, 0);
 
-              Offset revBegin = (_currPageIndex > _prevPageIndex)
-                ? const Offset(-1, 0)
-                : const Offset(1, 0);
+            Offset revBegin = (_currPageIndex > _prevPageIndex)
+              ? const Offset(-1, 0)
+              : const Offset(1, 0);
 
-              bool isIncomingPage = child.key == ValueKey(_currPageIndex);
-              if (isIncomingPage) {
-                return SlideTransition(
-                  position: Tween<Offset>(
-                    begin: begin,
-                    end: Offset.zero,
-                  ).animate(animation),
-                  child: child
-                );
-              }
-              else {
-                return SlideTransition(
-                  position: Tween<Offset>(
-                    begin: revBegin,
-                    end: Offset.zero,
-                  ).animate(animation),
-                  child: child
-                );
-              }
-            },
-            child: IndexedStack(
-              key: ValueKey<int>(_currPageIndex),
-              index: _currPageIndex,
-              children: [
+            bool isIncomingPage = child.key == ValueKey(_currPageIndex);
+            if (isIncomingPage) {
+              return SlideTransition(
+                position: Tween<Offset>(
+                  begin: begin,
+                  end: Offset.zero,
+                ).animate(animation),
+                child: child
+              );
+            }
+            else {
+              return SlideTransition(
+                position: Tween<Offset>(
+                  begin: revBegin,
+                  end: Offset.zero,
+                ).animate(animation),
+                child: child
+              );
+            }
+          },
+          child: IndexedStack(
+            key: ValueKey<int>(_currPageIndex),
+            index: _currPageIndex,
+            children: [
 
-                HomeScreen(model: userAppModel),
-                AddScreen(model: userAppModel),
-                ItemScreen(model: tmdbModel)
+              HomeScreen(model: mainModel),
+              AddScreen(model: mainModel),
+              ItemScreen(model: mainModel)
 
-              ]
-            ),
+            ]
           ),
-          bottomNavigationBar: Container(
-            decoration: BoxDecoration(
-              border: Border(
-                top: BorderSide(
-                  width: 1,
-                  color: Theme.of(context).colorScheme.surfaceContainerHighest
-                )
+        ),
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            border: Border(
+              top: BorderSide(
+                width: 1,
+                color: Theme.of(context).colorScheme.surfaceContainerHighest
               )
-            ),
-            child: NavigationBar(
-              height: 50,
-              labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
-              selectedIndex: _currPageIndex,
-              onDestinationSelected: (int idx) {
-                setState(() {
-                  _prevPageIndex = _currPageIndex;
-                  _currPageIndex = idx;
-                });
-              },
-              destinations: const <Widget>[
+            )
+          ),
+          child: NavigationBar(
+            height: 50,
+            labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+            selectedIndex: _currPageIndex,
+            onDestinationSelected: (int idx) {
+              setState(() {
+                _prevPageIndex = _currPageIndex;
+                _currPageIndex = idx;
+              });
+            },
+            destinations: const <Widget>[
 
-                NavButton(width: 100, icon: Icon(Icons.home)),
-                NavButton(icon: Icon(Icons.add)),
-                NavButton(icon: Icon(Icons.menu))
+              NavButton(width: 100, icon: Icon(Icons.home)),
+              NavButton(icon: Icon(Icons.add)),
+              NavButton(icon: Icon(Icons.menu))
 
-              ],
-            ),
-          )
+            ],
+          ),
         )
       )
     );
