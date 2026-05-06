@@ -167,9 +167,44 @@ class _AddScreen extends State<AddScreen> {
                             onPressed: () {
                               //validate all input field when clicking Submit button
                               if (_formKey.currentState!.validate()) {
+                                final newMedia = Media(
+                                  id: _selectedMedia?.id ?? DateTime.now().millisecondsSinceEpoch,
+                                  title: titleController.text.trim(),
+                                  genres: _selectedMedia?.genres ??
+                                      genreController.text
+                                          .split(',')
+                                          .map((g) => g.trim())
+                                          .map((g) => Genre.values.firstWhere(
+                                            (e) => e.label.toLowerCase() == g.toLowerCase(),
+                                        orElse: () => Genre.unknown,
+                                      ))
+                                          .toList(),
+                                  directors: directorController.text
+                                      .split(',')
+                                      .map((d) => d.trim())
+                                      .where((d) => d.isNotEmpty)
+                                      .toList(),
+                                  posterPath: _selectedMedia?.posterPath,
+                                  type: _isMovies ? MediaType.movies : MediaType.tvShows,
+                                );
+
+                                if (_isMovies) {
+                                  widget.model.addMovie(newMedia);
+                                } else {
+                                  widget.model.addShow(newMedia);
+                                }
+
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(content: Text("Adding to list successfully")),
                                 );
+
+                                // clear form
+                                titleController.clear();
+                                genreController.clear();
+                                directorController.clear();
+                                setState(() {
+                                  _selectedMedia = null;
+                                });
                               }
                             },
                             child: Text("Add"),
