@@ -124,9 +124,30 @@ class _PageHandler extends State<PageHandler> {
             index: _currPageIndex,
             children: [
 
-              HomeScreen(model: mainModel),
+              HomeScreen(
+                model: mainModel,
+                  onTabChange: (index) {
+                    setState(() {
+                      _prevPageIndex = _currPageIndex;
+                      _currPageIndex = index;
+                    });
+                  }
+              ),
               AddScreen(model: mainModel),
-              ItemScreen(model: mainModel)
+              ScopedModelDescendant<MainModel>(      //refresh item_screen when switching
+                builder: (context, child, model) {
+                  return ItemScreen(
+                    model: mainModel,
+                    media: model.selectedMedia,
+                    onTabChange: (index) {
+                      setState(() {
+                        _prevPageIndex = _currPageIndex;
+                        _currPageIndex = index;
+                      });
+                    },
+                  );
+                },
+              )
 
             ]
           ),
