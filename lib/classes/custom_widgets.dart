@@ -80,8 +80,8 @@ class MediaCard extends StatelessWidget {
                 ]
               ),
               child: Center(
-                child: (mediaItem.coverImagePath != null) 
-                  ? Image.asset(mediaItem.coverImagePath!) 
+                child: (mediaItem.posterPath != null) 
+                  ? Image.network(mediaItem.posterPath!) 
                   : Text(
                     mediaItem.title,
                     style: Theme.of(context).textTheme.titleLarge,

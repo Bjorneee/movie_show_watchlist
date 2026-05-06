@@ -37,4 +37,54 @@ Future<List<dynamic>> searchTV(String query) async {
   }
 }
 
-// To get image: Follow same steps as before but with image base and append the posterpath returned from the corresponding result
+String getPosterUrl(String? path) {
+  return (path != "" && path != null)
+    ? "${Env.imageBaseURL}/w${Env.width}/$path"
+    : "";
+}
+
+Future<List<dynamic>> getMovieCrew(int moveId) async {
+  final apiKey = Env.apiKey;
+
+  final url = Uri.parse(
+    "${Env.baseURL}/movie/$moveId/credits?api_key=$apiKey"
+  );
+
+  final result = await http.get(url);
+
+  if (result.statusCode == 200) {
+    return json.decode(result.body)['crew'];
+  }
+  throw Exception("Response Code ${result.statusCode}: Unable to retrive crew data.");
+}
+
+Future<List<String>> getMovieDirectorsAsync(int movieId) async {
+  List<dynamic> jsonData = await getMovieCrew(movieId);
+  return jsonData.where(
+    (person) => person['job'] == "Director").map<String>(
+      (person) => person['name'] as String).toList();
+}
+
+
+Future<List<dynamic>> getTVCrew(int seriesId) async {
+  final apiKey = Env.apiKey;
+
+  final url = Uri.parse(
+    "${Env.baseURL}/tv/$seriesId/credits?api_key=$apiKey"
+  );
+
+  final result = await http.get(url);
+
+  if (result.statusCode == 200) {
+    return json.decode(result.body)['crew'];
+  }
+  throw Exception("Response Code ${result.statusCode}: Unable to retrive crew data.");
+}
+
+
+Future<List<String>> getTVDirectorsAsync(int seriesId) async {
+  List<dynamic> jsonData = await getTVCrew(seriesId);
+  return jsonData.where(
+    (person) => person['job'] == "Director").map<String>(
+      (person) => person['name'] as String).toList();
+}

@@ -7,10 +7,10 @@ import 'package:movie_show_watchlist/main.dart';
 
 //test cards
 final List<Media> testList = [
-  Media(title: 'The Movie', genres: [Genre.action, Genre.animation], status: Status.watched, type: MediaType.movies), // Status changes card overlay color
-  Media(title: 'The TV Show', genres: [Genre.horror, Genre.mystery], status: Status.notWatched, type: MediaType.tvShows),
-  Media(title: 'The Movie2', genres: [Genre.scifi, Genre.adventure, Genre.fantasy], status: Status.watching, type: MediaType.movies),
-  Media(title: 'The TV Show2', genres: [Genre.crime, Genre.documentary], status: Status.dropped, type: MediaType.tvShows)
+  Media(id: 0, title: 'The Movie', genres: [Genre.action, Genre.animation], status: Status.watched, type: MediaType.movies), // Status changes card overlay color
+  Media(id: 1, title: 'The TV Show', genres: [Genre.horror, Genre.mystery], status: Status.notWatched, type: MediaType.tvShows),
+  Media(id: 2, title: 'The Movie2', genres: [Genre.scifi, Genre.adventure, Genre.fantasy], status: Status.watching, type: MediaType.movies),
+  Media(id: 3, title: 'The TV Show2', genres: [Genre.crime, Genre.documentary], status: Status.dropped, type: MediaType.tvShows)
 ];
 
 class HomeScreen extends StatefulWidget {

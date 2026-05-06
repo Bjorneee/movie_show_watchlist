@@ -24,7 +24,6 @@ class _AddScreen extends State<AddScreen> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-        appBar: AppBar(title: Text("My Watch List")),
         body: SafeArea(
             child: SingleChildScrollView(
               padding: EdgeInsets.all(16),
@@ -33,16 +32,6 @@ class _AddScreen extends State<AddScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Center(
-                      child: Text(
-                        "Add Movie/TV Show",
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w700,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
                     SizedBox(height: 10),
 
                     SearchBar().showAll(),      //search bar
@@ -54,6 +43,7 @@ class _AddScreen extends State<AddScreen> {
                           height: 220,
                           child: MediaCard(
                             mediaItem: Media(
+                              id: 0,
                               title: "+",
                               type: MediaType.movies,
                             ),

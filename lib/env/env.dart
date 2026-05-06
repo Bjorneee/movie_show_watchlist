@@ -19,5 +19,14 @@ abstract class Env {
 
     @EnviedField(varName: 'DEBUG')
     static const bool debug = _Env.debug;
+
+    @EnviedField(varName: 'ASPECT_RATIO')
+    static const double aspectRatio = _Env.aspectRatio;
+
+    @EnviedField(varName: 'ISO_639_1')
+    static const String lang = _Env.lang;
+
+    @EnviedField(varName: 'WIDTH')
+    static const int width = _Env.width;
 }
 
