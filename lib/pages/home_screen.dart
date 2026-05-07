@@ -149,23 +149,28 @@ class _HomeScreen extends State<HomeScreen> {
                         ),
                         SizedBox(height: 10),
                         Expanded(
-                            child: GridView.builder(
-                                itemCount: filteredList.length,
-                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                ),
-                                itemBuilder: (context, index) {
-                                  final Media media = filteredList[index];
-                                  return MediaCard(
-                                    mediaItem: media,
-                                    onClick: () {
-                                      widget.model.selectMedia(media);
-                                      //switch to item_screen tab after click media card in home page
-                                      widget.onTabChange?.call(2);
-                                    },
-                                  );
-                                }
-                            )
+                          child: GridView.builder(
+                            itemCount: filteredList.length,
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 170 / 250,
+                              mainAxisSpacing: 12,
+                              crossAxisSpacing: 12
+                            ),
+                            itemBuilder: (context, index) {
+                              final Media media = filteredList[index];
+                              return MediaCard(
+                                width: 170,
+                                height: 250,
+                                mediaItem: media,
+                                onClick: () {
+                                  widget.model.selectMedia(media);
+                                  //switch to item_screen tab after click media card in home page
+                                  widget.onTabChange?.call(2);
+                                },
+                              );
+                            }
+                          )
                         )
                       ],
                     )

@@ -162,7 +162,7 @@ class _PageHandler extends State<PageHandler> {
             )
           ),
           child: NavigationBar(
-            height: 50,
+            height: 40,
             labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
             selectedIndex: _currPageIndex,
             onDestinationSelected: (int idx) {
