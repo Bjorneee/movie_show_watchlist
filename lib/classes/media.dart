@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:movie_show_watchlist/api/tmdb_api.dart';
 
-
 enum Genre {
   action("Action", 28),
   adventure("Adventure", 12),
@@ -43,7 +42,7 @@ enum Genre {
   static Genre fromId(int id) {
     return Genre.values.firstWhere(
       (g) => g.id == id,
-      orElse: () => Genre.unknown
+      orElse: () => Genre.unknown,
     );
   }
 }
@@ -59,10 +58,7 @@ enum Status {
   const Status(this.string, this.color);
 }
 
-enum MediaType {
-  movies,
-  tvShows;
-}
+enum MediaType { movies, tvShows }
 
 class Media {
   int id;
@@ -72,24 +68,27 @@ class Media {
   String? posterPath;
   Status status;
   final MediaType type;
+  double? rating;
 
-  Media ({
+  Media({
     required this.id,
     required this.title,
     this.genres,
     this.directors,
     this.posterPath,
     this.status = Status.notWatched,
-    required this.type
+    required this.type,
+    this.rating,
   });
 
   factory Media.fromJson(Map<String, dynamic> json, MediaType type) {
-
     final genreData = json['genre_ids'];
     List<Genre>? genres = [];
 
     if (genreData is List) {
-      genres = genreData.map((item) => Genre.fromId((int.tryParse(item.toString())) ?? 0)).toList();
+      genres = genreData
+          .map((item) => Genre.fromId((int.tryParse(item.toString())) ?? 0))
+          .toList();
     }
 
     return Media(
@@ -98,29 +97,31 @@ class Media {
       genres: genres,
       directors: null,
       posterPath: getPosterUrl(json['poster_path']),
-      type: type
+      type: type,
     );
   }
 
-  static Future<Media> fromJsonAsync(Map<String, dynamic> json, MediaType type) async {
-    
+  static Future<Media> fromJsonAsync(
+    Map<String, dynamic> json,
+    MediaType type,
+  ) async {
     final media = Media.fromJson(json, type);
     media.directors = (type == MediaType.movies)
-      ? await getMovieDirectorsAsync(media.id)
-      : await getTVDirectorsAsync(media.id);
+        ? await getMovieDirectorsAsync(media.id)
+        : await getTVDirectorsAsync(media.id);
 
     return media;
   }
 
   Future<int?> getDirectors() async {
-    directors = (type == MediaType.movies) ? await getMovieDirectorsAsync(id) : await getTVDirectorsAsync(id);
+    directors = (type == MediaType.movies)
+        ? await getMovieDirectorsAsync(id)
+        : await getTVDirectorsAsync(id);
     return directors?.length;
   }
-
 }
 
 mixin TmdbModel on Model {
-
   List<Media> _tmdbMovies = [];
   List<Media> _tmdbShows = [];
 
@@ -128,7 +129,6 @@ mixin TmdbModel on Model {
   List<Media> get tmdbShows => _tmdbShows;
 
   Future<List<Media>> getSearchMovies(String query) async {
-
     if (query.trim().isEmpty) {
       _tmdbMovies = [];
       notifyListeners();
@@ -145,7 +145,6 @@ mixin TmdbModel on Model {
   }
 
   Future<List<Media>> getSearchTV(String query) async {
-
     if (query.trim().isEmpty) {
       _tmdbShows = [];
       notifyListeners();
@@ -159,5 +158,4 @@ mixin TmdbModel on Model {
     notifyListeners();
     return _tmdbShows;
   }
-
 }
