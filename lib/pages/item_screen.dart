@@ -221,7 +221,7 @@ class _ItemScreen extends State<ItemScreen> {
                   width: double.infinity,
                   child: OutlinedButton(
                     onPressed: () {
-                      widget.model.selectMedia(null);
+                      widget.model.selectMedia(null);   //clear selection
                       widget.onTabChange?.call(0);
                     },
                     child: const Text('Cancel'),

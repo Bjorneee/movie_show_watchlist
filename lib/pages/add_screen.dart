@@ -39,9 +39,10 @@ class _AddScreen extends State<AddScreen> {
     return ScopedModelDescendant<MainModel>(
       builder: (context, child, model) {
         return Scaffold(
+          appBar: AppBar(title: const Text('My Watch List')),
           body: SafeArea(
-            child: Padding(
-              padding: EdgeInsetsGeometry.all(10),
+            child: SingleChildScrollView(
+              padding: EdgeInsetsGeometry.all(16),
               child: Form(
                 key: _formKey,
                 child: Stack(
@@ -53,7 +54,19 @@ class _AddScreen extends State<AddScreen> {
                       crossAxisAlignment: .start,
                       children: [
 
-                        SearchBar().showAll(
+                        Center(
+                          child: Text(
+                            "Add Movie/TV Show",
+                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w700,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        SizedBox(height: 10),
+
+                        SearchBar().showAll(      //search bar
                           onTap: () {
                             setState(() {
                               _showSearchResults = true;
@@ -70,7 +83,7 @@ class _AddScreen extends State<AddScreen> {
                                 : widget.model.getSearchTV(_searchQuery);
                             });
                           },
-                        ),      //search bar
+                        ),
 
                         SizedBox(height: 15),
 

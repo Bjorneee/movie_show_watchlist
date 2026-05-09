@@ -6,34 +6,10 @@ import 'package:scoped_model/scoped_model.dart';
 
 //test cards
 final List<Media> testList = [
-  Media(
-    id: 0,
-    title: 'The Movie',
-    genres: [Genre.action, Genre.animation],
-    status: Status.watched,
-    type: MediaType.movies,
-  ),
-  Media(
-    id: 1,
-    title: 'The TV Show',
-    genres: [Genre.horror, Genre.mystery],
-    status: Status.notWatched,
-    type: MediaType.tvShows,
-  ),
-  Media(
-    id: 2,
-    title: 'The Movie2',
-    genres: [Genre.scifi, Genre.adventure, Genre.fantasy],
-    status: Status.watching,
-    type: MediaType.movies,
-  ),
-  Media(
-    id: 3,
-    title: 'The TV Show2',
-    genres: [Genre.crime, Genre.documentary],
-    status: Status.dropped,
-    type: MediaType.tvShows,
-  ),
+  Media(id: 0, title: 'The Movie', genres: [Genre.action, Genre.animation], status: Status.watched, type: MediaType.movies), // Status changes card overlay color
+  Media(id: 1, title: 'The TV Show', genres: [Genre.horror, Genre.mystery], status: Status.notWatched, type: MediaType.tvShows),
+  Media(id: 2, title: 'The Movie2', genres: [Genre.scifi, Genre.adventure, Genre.fantasy], status: Status.watching, type: MediaType.movies),
+  Media(id: 3, title: 'The TV Show2', genres: [Genre.crime, Genre.documentary], status: Status.dropped, type: MediaType.tvShows)
 ];
 
 class HomeScreen extends StatefulWidget {
@@ -46,7 +22,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreen extends State<HomeScreen> {
-  int selectTab = 0;
+  int selectTab = 0;    // 0 = default, 1 = movies, 2 = shows
   Genre? selectGenre;
   String searchQuery = "";
 
@@ -54,19 +30,35 @@ class _HomeScreen extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<MainModel>(
       builder: (context, child, model) {
-        final allMedia = [...widget.model.movieList, ...widget.model.showList];
+        final allMedia = [
+          ...widget.model.movieList,
+          ...widget.model.showList,
+        ];
 
         final filteredList = allMedia.where((m) {
-          if (selectTab == 1 && m.type != MediaType.movies) return false;
-          if (selectTab == 2 && m.type != MediaType.tvShows) return false;
-
-          if (selectGenre != null) {
-            if (m.genres == null) return false;
-            if (!m.genres!.contains(selectGenre)) return false;
+          //filter for media type buttons
+          if (selectTab == 1 && m.type != MediaType.movies) {
+            return false;
+          }
+          if (selectTab == 2 && m.type != MediaType.tvShows) {
+            return false;
           }
 
+          //genres filter
+          if (selectGenre != null) {
+            if (m.genres == null) {
+              return false;
+            }
+            if (!m.genres!.contains(selectGenre)) {
+              return false;
+            }
+          }
+
+          //search added movie/tv show filter
           if (searchQuery.isNotEmpty) {
-            if (!m.title.toLowerCase().contains(searchQuery)) return false;
+            if (!m.title.toLowerCase().contains(searchQuery)) {
+              return false;
+            }
           }
 
           return true;
@@ -80,7 +72,7 @@ class _HomeScreen extends State<HomeScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
+                  Row(           //search bar on the top
                     children: [
                       Expanded(
                         child: SearchBar().showAll(
@@ -96,14 +88,11 @@ class _HomeScreen extends State<HomeScreen> {
                         onPressed: () async {
                           final result = await showMenu<Genre?>(
                             context: context,
-                            position: const RelativeRect.fromLTRB(
-                              100,
-                              80,
-                              0,
-                              0,
-                            ),
+                            position: const RelativeRect.fromLTRB(100, 80, 0, 0),
                             items: [
-                              const PopupMenuItem(child: Text("All Genres")),
+                              const PopupMenuItem(
+                                  child: Text("All Genres")
+                              ),
                               ...Genre.values.map(
                                 (g) => PopupMenuItem(
                                   child: Text(g.name),
@@ -131,21 +120,29 @@ class _HomeScreen extends State<HomeScreen> {
                     ],
                   ),
                   SizedBox(height: 10),
-                  Row(
+                  Row(               //movies - shows buttons
                     children: [
                       Expanded(
-                        child: ElevatedButton(
-                          onPressed: () => setState(() => selectTab = 1),
-                          child: Text("Movies"),
-                        ),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                selectTab = 1;
+                              });
+                            },
+                            child: Text("Movies"),
+                          )
                       ),
                       SizedBox(width: 10),
                       Expanded(
-                        child: ElevatedButton(
-                          onPressed: () => setState(() => selectTab = 2),
-                          child: Text("TV Shows"),
-                        ),
-                      ),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                selectTab = 2;
+                              });
+                            },
+                            child: Text("TV Shows"),
+                          )
+                      )
                     ],
                   ),
                   SizedBox(height: 10),
@@ -170,6 +167,7 @@ class _HomeScreen extends State<HomeScreen> {
                                 mediaItem: media,
                                 onClick: () {
                                   widget.model.selectMedia(media);
+                                  //switch to item_screen tab after click media card in home page
                                   widget.onTabChange?.call(2);
                                 },
                               ),
