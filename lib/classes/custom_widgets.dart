@@ -52,53 +52,61 @@ class MediaCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onClick,
+    return Container(
+      width: width,
+      height: height,
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Color(0x262563EB),
+            offset: Offset(0, 1),
+            blurRadius: 20,
+            blurStyle: .outer,
+            spreadRadius: 0
+          ),
+          BoxShadow(
+            color: Color(0x66000000),
+            offset: Offset(0, 2),
+            blurRadius: 30,
+            blurStyle: .outer,
+            spreadRadius: 0
+          )
+        ]
+      ),
       child: Card(
-        child: Stack(
-          children: [
+        margin: EdgeInsets.zero,
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onClick,
+          onHover: (value) {
+            
+          },
+          child: Stack(
+            fit: .expand,
+            children: [
+              mediaItem.posterPath != null
+                  ? Image.network(
+                      mediaItem.posterPath!,
+                      fit: .cover,
+                    )
+                  : Center(
+                      child: Text(
+                        mediaItem.title,
+                        style: Theme.of(context).textTheme.titleLarge,
+                        textAlign: .center,
+                      ),
+                    ),
 
-            Container(
-              width: width,
-              height: height,
-              margin: EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Color(0x262563EB),
-                    offset: Offset(0, 1),
-                    blurRadius: 20,
-                    blurStyle: .outer,
-                    spreadRadius: 0
-                  ),
-                  BoxShadow(
-                    color: Color(0x66000000),
-                    offset: Offset(0, 2),
-                    blurRadius: 30,
-                    blurStyle: .outer,
-                    spreadRadius: 0
-                  )
-                ]
-              ),
-              child: Center(
-                child: (mediaItem.posterPath != null) 
-                  ? Image.network(mediaItem.posterPath!) 
-                  : Text(
-                    mediaItem.title,
-                    style: Theme.of(context).textTheme.titleLarge,
-                  )
-              ),
-            ),
-
-            Positioned.fill(
-              child: (mediaItem.status != Status.notWatched)
-                ? MediaCardOverlay(status: mediaItem.status)
-                : Text(''),
-            )
-
-          ],
-        )
-      )
+              if (mediaItem.status != Status.notWatched)
+                Positioned(
+                  top: 5,
+                  left: 5,
+                  child: MediaCardOverlay(status: mediaItem.status)
+                ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
@@ -257,22 +265,21 @@ class MediaCardOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipPath (
-      clipper: RightTriangleClipper(),
-      child: Container(
-        padding: EdgeInsets.all(10),
-        color: status.color.withAlpha(0x3F),
-        child: Align(
-          alignment: .bottomRight,
-          child: Text(
-            status.string,
-            style: TextStyle(
-              fontSize: 24,
-              color: Color(0x3FFFFFFF)
-            ),
-          ),
-        )
-      )
+    return Container(
+      alignment: .center,
+      width: 100,
+      height: 30,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(50),
+        color: status.color.withAlpha(0xAF),
+      ),
+      child: Text(
+        status.string,
+        style: TextStyle(
+          fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize,
+          color: Color(0xAFFFFFFF)
+        ),
+      ),
     );
   }
 }
@@ -281,9 +288,9 @@ class RightTriangleClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     Path path = Path();
-    path.moveTo(0, size.height);
+    path.moveTo(0, 0);
     path.lineTo(size.width, 0);
-    path.lineTo(size.width, size.height);
+    path.lineTo(0, size.height);
     path.close();
     return path;
   }

@@ -40,8 +40,8 @@ class _AddScreen extends State<AddScreen> {
       builder: (context, child, model) {
         return Scaffold(
           body: SafeArea(
-            child: SingleChildScrollView(
-              padding: EdgeInsets.all(16),
+            child: Padding(
+              padding: EdgeInsetsGeometry.all(10),
               child: Form(
                 key: _formKey,
                 child: Stack(
@@ -49,9 +49,9 @@ class _AddScreen extends State<AddScreen> {
                   children: [
 
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: .spaceBetween,
+                      crossAxisAlignment: .start,
                       children: [
-                        SizedBox(height: 10),
 
                         SearchBar().showAll(
                           onTap: () {
@@ -76,8 +76,8 @@ class _AddScreen extends State<AddScreen> {
 
                         Center(                     //movie/tv show pic
                             child: SizedBox(
-                              width: 160,
-                              height: 220,
+                              width: 200,
+                              height: 300,
                               child: MediaCard(
                                 mediaItem: _selectedMedia == null
                                 ?
@@ -210,7 +210,6 @@ class _AddScreen extends State<AddScreen> {
                             child: Text("Add"),
                           ),
                         ),
-                        SizedBox(height: 10),
                       ],
                     ),
 
@@ -275,11 +274,11 @@ class _AddScreen extends State<AddScreen> {
                         }
                       }
                     )
-                    : Text("")
+                    : const SizedBox.shrink()
                   ],
                 )
               )
-            ),
+            )
           )
         );
       }
