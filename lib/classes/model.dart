@@ -54,6 +54,17 @@ mixin AppModel on Model {
     _selectedMedia = media;
     notifyListeners();
   }
+
+  //delete a media
+  void deleteMedia(Media media) {
+    if (media.type == MediaType.movies) {
+      _movieList.remove(media);
+    } else {
+      _showList.remove(media);
+    }
+    _selectedMedia = null;
+    notifyListeners();
+  }
 }
 
 

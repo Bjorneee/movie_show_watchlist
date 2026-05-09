@@ -193,29 +193,52 @@ class _ItemScreen extends State<ItemScreen> {
                 ),
                 const SizedBox(height: 24),
 
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        media.title = titleController.text.trim();
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            media.title = titleController.text.trim();
 
-                        media.directors = directorsController.text
-                            .split(',')
-                            .map((director) => director.trim())
-                            .where((director) => director.isNotEmpty)
-                            .toList();
+                            media.directors = directorsController.text
+                                .split(',')
+                                .map((director) => director.trim())
+                                .where((director) => director.isNotEmpty)
+                                .toList();
 
-                        media.status = selectedStatus;
-                        media.rating = _rating; // saves double
-                        widget.model.selectMedia(null);
-                        widget.onTabChange?.call(0);
-                      }
-                    },
-                    child: const Text('Save Changes'),
-                  ),
+                            media.status = selectedStatus;
+                            media.rating = _rating; // saves double
+                            widget.model.selectMedia(null);
+                            widget.onTabChange?.call(0);
+                          }
+                        },
+                        child: Text('Save Changes'),
+                      ),
+                    ),
+
+                    SizedBox(width: 12),
+
+                    Expanded(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red,
+                          foregroundColor: Colors.white,
+                        ),
+                        onPressed: () {
+                          widget.model.deleteMedia(media);
+                          widget.onTabChange?.call(0);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("Media deleted!"),
+                            ),
+                          );
+                        },
+                        child: Text('Delete'),
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 12),
 
                 SizedBox(
                   width: double.infinity,
