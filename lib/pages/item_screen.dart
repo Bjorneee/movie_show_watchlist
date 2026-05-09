@@ -4,11 +4,15 @@ import 'package:movie_show_watchlist/classes/media.dart';
 import 'package:movie_show_watchlist/classes/custom_widgets.dart';
 
 class ItemScreen extends StatefulWidget {
-
   final AppModel model;
   final Media? media;
   final Function(int)? onTabChange;
-  const ItemScreen({super.key, required this.model, this.media, this.onTabChange});
+  const ItemScreen({
+    super.key,
+    required this.model,
+    this.media,
+    this.onTabChange,
+  });
 
   @override
   State<ItemScreen> createState() => _ItemScreen();
@@ -18,6 +22,7 @@ class _ItemScreen extends State<ItemScreen> {
   late TextEditingController titleController;
   late TextEditingController directorsController;
   late Status selectedStatus;
+  double _rating = 0; // changed to double
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -31,6 +36,7 @@ class _ItemScreen extends State<ItemScreen> {
     );
 
     selectedStatus = widget.media?.status ?? Status.notWatched;
+    _rating = (widget.media?.rating ?? 0).toDouble(); // cast to double
   }
 
   @override
@@ -83,118 +89,148 @@ class _ItemScreen extends State<ItemScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('My Watch List')),
       body: SafeArea(
-          child: SingleChildScrollView(
-            padding: EdgeInsets.all(16),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(
-                    child: Text(
-                      "Media Details",
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w700,
+        child: SingleChildScrollView(
+          padding: EdgeInsets.all(16),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Text(
+                    "Media Details",
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                SizedBox(height: 10),
+
+                Center(
+                  child: SizedBox(
+                    width: 190,
+                    height: 260,
+                    child: MediaCard(mediaItem: media),
+                  ),
+                ),
+                const SizedBox(height: 12),
+
+                // ── Half-star rating row ─────────────────────────
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(5, (i) {
+                    final fullValue = (i + 1).toDouble();
+                    final halfValue = i + 0.5;
+                    return GestureDetector(
+                      onTapDown: (details) {
+                        setState(() {
+                          // left half of icon = half star, right half = full star
+                          _rating = details.localPosition.dx < 18
+                              ? halfValue
+                              : fullValue;
+                        });
+                      },
+                      child: Icon(
+                        _rating >= fullValue
+                            ? Icons.star
+                            : _rating >= halfValue
+                            ? Icons.star_half
+                            : Icons.star_border,
+                        color: Colors.amber,
+                        size: 36,
                       ),
-                      textAlign: TextAlign.center,
-                    ),
+                    );
+                  }),
+                ),
+                const SizedBox(height: 20),
+
+                // ─────────────────────────────────────────────────
+                TextFormField(
+                  controller: titleController,
+                  decoration: const InputDecoration(
+                    labelText: 'Title',
+                    border: OutlineInputBorder(),
                   ),
-                  SizedBox(height: 10),
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return "Title is required";
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
 
-                  Center(
-                    child: SizedBox(
-                      width: 190,
-                      height: 260,
-                      child: MediaCard(mediaItem: media),
-                    ),
+                TextField(
+                  controller: directorsController,
+                  decoration: const InputDecoration(
+                    labelText: 'Director(s)',
+                    hintText: 'Example: Christopher Nolan, James Gunn',
+                    border: OutlineInputBorder(),
                   ),
-                  const SizedBox(height: 24),
+                ),
+                const SizedBox(height: 16),
 
-                  TextFormField(
-                    controller: titleController,
-                    decoration: const InputDecoration(
-                      labelText: 'Title',
-                      border: OutlineInputBorder(),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return "Title is required";
-                      }
-                      return null;
-                    },
+                DropdownButtonFormField<Status>(
+                  value: selectedStatus,
+                  decoration: const InputDecoration(
+                    labelText: 'Status',
+                    border: OutlineInputBorder(),
                   ),
-                  const SizedBox(height: 16),
+                  items: Status.values.map((status) {
+                    return DropdownMenuItem<Status>(
+                      value: status,
+                      child: Text(status.string),
+                    );
+                  }).toList(),
+                  onChanged: (Status? value) {
+                    if (value == null) return;
+                    setState(() {
+                      selectedStatus = value;
+                    });
+                  },
+                ),
+                const SizedBox(height: 24),
 
-                  TextField(
-                    controller: directorsController,
-                    decoration: const InputDecoration(
-                      labelText: 'Director(s)',
-                      hintText: 'Example: Christopher Nolan, James Gunn',
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        media.title = titleController.text.trim();
 
-                  DropdownButtonFormField<Status>(
-                    value: selectedStatus,
-                    decoration: const InputDecoration(
-                      labelText: 'Status',
-                      border: OutlineInputBorder(),
-                    ),
-                    items: Status.values.map((status) {
-                      return DropdownMenuItem<Status>(
-                        value: status,
-                        child: Text(status.string),
-                      );
-                    }).toList(),
-                    onChanged: (Status? value) {
-                      if (value == null) return;
+                        media.directors = directorsController.text
+                            .split(',')
+                            .map((director) => director.trim())
+                            .where((director) => director.isNotEmpty)
+                            .toList();
 
-                      setState(() {
-                        selectedStatus = value;
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 24),
-
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          media.title = titleController.text.trim();
-
-                          media.directors = directorsController.text
-                              .split(',')
-                              .map((director) => director.trim())
-                              .where((director) => director.isNotEmpty)
-                              .toList();
-
-                          media.status = selectedStatus;
-                          widget.model.selectMedia(null);
-                          widget.onTabChange?.call(0);
-                        }
-                      },
-                      child: const Text('Save Changes'),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-
-                  SizedBox(
-                    width: double.infinity,
-                    child: OutlinedButton(
-                      onPressed: () {
-                        widget.model.selectMedia(null);   //clear selection
+                        media.status = selectedStatus;
+                        media.rating = _rating; // saves double
+                        widget.model.selectMedia(null);
                         widget.onTabChange?.call(0);
-                      },
-                      child: const Text('Cancel'),
-                    ),
+                      }
+                    },
+                    child: const Text('Save Changes'),
                   ),
-                ],
-              ),
+                ),
+                const SizedBox(height: 12),
+
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton(
+                    onPressed: () {
+                      widget.model.selectMedia(null);
+                      widget.onTabChange?.call(0);
+                    },
+                    child: const Text('Cancel'),
+                  ),
+                ),
+              ],
             ),
-          )
+          ),
+        ),
       ),
     );
   }
