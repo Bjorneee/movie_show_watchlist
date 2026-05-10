@@ -177,11 +177,13 @@ class _ItemScreen extends State<ItemScreen> {
 
                 TextField(
                   controller: directorsController,
+                  readOnly: true,
                   decoration: const InputDecoration(
                     labelText: 'Director(s)',
-                    hintText: 'Example: Christopher Nolan, James Gunn',
+                    //hintText: 'Example: Christopher Nolan, James Gunn',
                     border: OutlineInputBorder(),
                   ),
+                  style: TextStyle(color: Color(0xFF93938B)),
                 ),
                 const SizedBox(height: 16),
 
