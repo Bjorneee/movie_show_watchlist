@@ -165,12 +165,12 @@ class _AddScreen extends State<AddScreen> {
                             hintText: "Enter director(s) here",
                             errorStyle: TextStyle(fontSize: 17)
                           ),
-                          validator: (value) {
+                          /*validator: (value) {
                             if (value == null || value.isEmpty) {
                               return "Director is missing";
                             }
                             return null;
-                          },
+                          },*/
                         ),
                         SizedBox(height: 20),
 

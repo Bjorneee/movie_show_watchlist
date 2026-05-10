@@ -137,9 +137,9 @@ mixin TmdbModel on Model {
 
     List<dynamic> jsonData = await searchMovies(query);
 
-    _tmdbMovies = await Future.wait(
-      jsonData.map((item) => Media.fromJsonAsync(item, MediaType.movies)),
-    );
+    _tmdbMovies = jsonData
+      .map<Media>((item) => Media.fromJson(item, MediaType.movies))
+      .toList();
     notifyListeners();
     return _tmdbMovies;
   }

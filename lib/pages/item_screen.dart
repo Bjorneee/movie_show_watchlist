@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_show_watchlist/classes/model.dart';
 import 'package:movie_show_watchlist/classes/media.dart';
 import 'package:movie_show_watchlist/classes/custom_widgets.dart';
+import 'package:movie_show_watchlist/api/tmdb_api.dart';
 
 class ItemScreen extends StatefulWidget {
   final AppModel model;
@@ -28,15 +29,27 @@ class _ItemScreen extends State<ItemScreen> {
   @override
   void initState() {
     super.initState();
+    final media = widget.media;
 
-    titleController = TextEditingController(text: widget.media?.title ?? '');
+    titleController = TextEditingController(text: media?.title ?? '');
 
-    directorsController = TextEditingController(
-      text: widget.media?.directors?.join(', ') ?? '',
-    );
+    directorsController = TextEditingController(text: 'Loading...');    //initialize
 
-    selectedStatus = widget.media?.status ?? Status.notWatched;
-    _rating = (widget.media?.rating ?? 0).toDouble(); // cast to double
+    selectedStatus = media?.status ?? Status.notWatched;
+    _rating = (media?.rating ?? 0).toDouble(); // cast to double
+
+    _loadDirectors(media);
+  }
+  Future<void> _loadDirectors(Media? media) async {
+    if (media == null) return;
+
+    final names = await getMovieDirectorsAsync(media.id);
+
+    if (!mounted) return;
+
+    setState(() {
+      directorsController.text = names.join(', ');
+    });
   }
 
   @override
@@ -201,11 +214,11 @@ class _ItemScreen extends State<ItemScreen> {
                           if (_formKey.currentState!.validate()) {
                             media.title = titleController.text.trim();
 
-                            media.directors = directorsController.text
+                            /*media.directors = directorsController.text
                                 .split(',')
                                 .map((director) => director.trim())
                                 .where((director) => director.isNotEmpty)
-                                .toList();
+                                .toList();*/
 
                             media.status = selectedStatus;
                             media.rating = _rating; // saves double
