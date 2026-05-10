@@ -22,6 +22,7 @@ class ItemScreen extends StatefulWidget {
 class _ItemScreen extends State<ItemScreen> {
   late TextEditingController titleController;
   late TextEditingController directorsController;
+  late TextEditingController genresController;
   late Status selectedStatus;
   double _rating = 0; // changed to double
   final _formKey = GlobalKey<FormState>();
@@ -34,6 +35,12 @@ class _ItemScreen extends State<ItemScreen> {
     titleController = TextEditingController(text: media?.title ?? '');
 
     directorsController = TextEditingController(text: 'Loading...');    //initialize
+
+    genresController = TextEditingController(
+        text: media?.genres
+            ?.map((genre) => genre.label)
+            .join(', ') ?? '',
+    );
 
     selectedStatus = media?.status ?? Status.notWatched;
     _rating = (media?.rating ?? 0).toDouble(); // cast to double
@@ -187,6 +194,21 @@ class _ItemScreen extends State<ItemScreen> {
                 ),
                 const SizedBox(height: 16),
 
+                TextFormField(
+                  controller: genresController,
+                  decoration: InputDecoration(
+                    labelText: 'Genre(s)',
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return "Genre is required";
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+
                 DropdownButtonFormField<Status>(
                   value: selectedStatus,
                   decoration: const InputDecoration(
@@ -221,6 +243,18 @@ class _ItemScreen extends State<ItemScreen> {
                                 .map((director) => director.trim())
                                 .where((director) => director.isNotEmpty)
                                 .toList();*/
+
+                            media.genres = genresController.text
+                                .split(',')
+                                .map((genre) => genre.trim())
+                                .where((genre) => genre.isNotEmpty)
+                                .map(
+                                  (genre) => Genre.values.firstWhere(
+                                    (g) => g.label.toLowerCase() == genre.toLowerCase(),
+                                orElse: () => Genre.unknown,
+                              ),
+                            )
+                                .toList();
 
                             media.status = selectedStatus;
                             media.rating = _rating; // saves double

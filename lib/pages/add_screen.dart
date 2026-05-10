@@ -149,7 +149,7 @@ class _AddScreen extends State<AddScreen> {
                             return null;
                           },
                         ),
-                        SizedBox(height: 10),
+                        /*SizedBox(height: 10),
 
                         Padding(                //director field
                           padding: const EdgeInsets.only(left: 25),
@@ -171,7 +171,7 @@ class _AddScreen extends State<AddScreen> {
                             }
                             return null;
                           },*/
-                        ),
+                        ),*/
                         SizedBox(height: 20),
 
                         SizedBox(                         //submit button
