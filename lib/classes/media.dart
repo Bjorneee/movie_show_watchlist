@@ -108,7 +108,7 @@ class Media {
     final media = Media.fromJson(json, type);
     media.directors = (type == MediaType.movies)
         ? await getMovieDirectorsAsync(media.id)
-        : await getTVDirectorsAsync(media.id);
+        : await getTVCreatorsAsync(media.id);
 
     return media;
   }
@@ -116,7 +116,7 @@ class Media {
   Future<int?> getDirectors() async {
     directors = (type == MediaType.movies)
         ? await getMovieDirectorsAsync(id)
-        : await getTVDirectorsAsync(id);
+        : await getTVCreatorsAsync(id);
     return directors?.length;
   }
 }
