@@ -194,20 +194,20 @@ class _MediaListTile extends State<MediaListTile> {
                   : Icon(Icons.movie)
               ),
 
-              Container(
-                width: 275,
-                height: 120,
-                padding: EdgeInsets.all(10),
-                alignment: .center,
-                child: AutoSizeText(
-                  widget.mediaItem.title,
-                  minFontSize: 16,
-                  maxFontSize: 24,
-                  maxLines: 2,
-                  overflow: .fade,
+              Expanded(
+                child: Container(
+                  height: 120,
+                  padding: EdgeInsets.all(10),
+                  alignment: .center,
+                  child: AutoSizeText(
+                    widget.mediaItem.title,
+                    minFontSize: 16,
+                    maxFontSize: 24,
+                    maxLines: 2,
+                    overflow: .fade,
+                  )
                 )
-              )
-
+              ) 
             ]
           )
         )
