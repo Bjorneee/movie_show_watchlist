@@ -134,7 +134,7 @@ class _AddScreen extends State<AddScreen> {
                                 Media(
                                   id: 0,
                                   title: "+",
-                                  type: MediaType.movies,
+                                  type: _isMovies ? MediaType.movies : MediaType.tvShows,
                                 )
                                 :_selectedMedia!
                               ),
