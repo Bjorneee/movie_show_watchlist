@@ -3,7 +3,7 @@
 Mobile media watchlist developed for CMPE-137 Spring 2026 class final project.
 
 ## Developed By
-- Anh Khoi Pham
+- Anh Khoi Pham (kphamcodes)
 - Benicio Marenco (Bjorneee)
 - Hoang Nhat Ho (supernova0216)
 - Matt Joshua Saquiton (PsydookMJ)
