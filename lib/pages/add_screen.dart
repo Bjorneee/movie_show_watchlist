@@ -66,6 +66,43 @@ class _AddScreen extends State<AddScreen> {
                         ),
                         SizedBox(height: 10),
 
+                        Row(
+                          children: [
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _isMovies = true;
+                                    _selectedMedia = null;
+                                    titleController.clear();
+                                    genreController.clear();
+                                    directorController.clear();
+                                    _mediaResults = widget.model.getSearchMovies(_searchQuery);
+                                  });
+                                },
+                                child: const Text("Movies"),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _isMovies = false;
+                                    _selectedMedia = null;
+                                    titleController.clear();
+                                    genreController.clear();
+                                    directorController.clear();
+                                    _mediaResults = widget.model.getSearchTV(_searchQuery);
+                                  });
+                                },
+                                child: const Text("TV Shows"),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 15),
+
                         SearchBar().showAll(      //search bar
                           onTap: () {
                             setState(() {
