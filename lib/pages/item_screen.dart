@@ -50,7 +50,9 @@ class _ItemScreen extends State<ItemScreen> {
   Future<void> _loadDirectors(Media? media) async {
     if (media == null) return;
 
-    final names = await getMovieDirectorsAsync(media.id);
+    final names = media.type == MediaType.movies
+        ? await getMovieDirectorsAsync(media.id)
+        : await getTVCreatorsAsync(media.id);
 
     if (!mounted) return;
 
@@ -186,7 +188,7 @@ class _ItemScreen extends State<ItemScreen> {
                   controller: directorsController,
                   readOnly: true,
                   decoration: const InputDecoration(
-                    labelText: 'Director(s)',
+                    labelText: 'Director/Creator(s)',
                     //hintText: 'Example: Christopher Nolan, James Gunn',
                     border: OutlineInputBorder(),
                   ),
@@ -266,7 +268,7 @@ class _ItemScreen extends State<ItemScreen> {
                       ),
                     ),
 
-                    SizedBox(width: 12),
+                    const SizedBox(width: 12),
 
                     Expanded(
                       child: ElevatedButton(
@@ -288,6 +290,8 @@ class _ItemScreen extends State<ItemScreen> {
                     ),
                   ],
                 ),
+
+                const SizedBox(height: 12),
 
                 SizedBox(
                   width: double.infinity,

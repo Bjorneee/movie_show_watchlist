@@ -82,9 +82,26 @@ Future<List<dynamic>> getTVCrew(int seriesId) async {
 }
 
 
-Future<List<String>> getTVDirectorsAsync(int seriesId) async {
-  List<dynamic> jsonData = await getTVCrew(seriesId);
-  return jsonData.where(
-    (person) => person['job'] == "Director").map<String>(
-      (person) => person['name'] as String).toList();
+Future<List<String>> getTVCreatorsAsync(int seriesId) async {
+  final apiKey = Env.apiKey;
+
+  final url = Uri.parse(
+    "${Env.baseURL}/tv/$seriesId?api_key=$apiKey",
+  );
+
+  final result = await http.get(url);
+
+  if (result.statusCode == 200) {
+    final data = json.decode(result.body);
+    final creators = data['created_by'];
+
+    if (creators is List) {
+      return creators
+          .map<String>((person) => person['name'] as String)
+          .toList();
+    }
+
+    return [];
+  }
+  throw Exception("Response Code ${result.statusCode}: Unable to retrieve TV creator data.");
 }
