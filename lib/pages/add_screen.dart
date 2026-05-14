@@ -26,6 +26,7 @@ class _AddScreen extends State<AddScreen> {
   bool _showSearchResults = false;
   bool _isMovies = true;
   Media? _selectedMedia;
+  int _selectedIndex = 0;
 
   @override
   void initState() {
@@ -39,7 +40,6 @@ class _AddScreen extends State<AddScreen> {
     return ScopedModelDescendant<MainModel>(
       builder: (context, child, model) {
         return Scaffold(
-          appBar: AppBar(title: const Text('My Watch List')),
           body: SafeArea(
             child: SingleChildScrollView(
               padding: EdgeInsetsGeometry.all(16),
@@ -54,75 +54,87 @@ class _AddScreen extends State<AddScreen> {
                       crossAxisAlignment: .start,
                       children: [
 
-                        Center(
-                          child: Text(
-                            "Add Movie/TV Show",
-                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w700,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        SizedBox(height: 10),
-
                         Row(
+                          mainAxisAlignment: .spaceEvenly,
                           children: [
+                            
+                            SizedBox(
+                              width: 250,
+                              child: SearchBar().showAll(      //search bar
+                                onTap: () {
+                                  setState(() {
+                                    _showSearchResults = true;
+                                  });
+                                },
+                                onTapOutside: (event) {
+                                  FocusScope.of(context).unfocus();
+                                  setState(() {
+                                    _showSearchResults = false;
+                                  });
+                                },
+                                onChanged: (value) {
+                                  setState(() {
+                                    _searchQuery = value.toLowerCase();
+                                    _mediaResults = _isMovies
+                                      ? widget.model.getSearchMovies(_searchQuery)
+                                      : widget.model.getSearchTV(_searchQuery);
+                                  });
+                                },
+                              ),
+                            ),
+
+                            const SizedBox(width: 10),
+
                             Expanded(
                               child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: _selectedIndex == 0
+                                        ? Theme.of(context).colorScheme.primary
+                                        : Theme.of(context).colorScheme.surfaceContainerHighest,
+                                    foregroundColor: _selectedIndex == 0
+                                        ? Theme.of(context).colorScheme.onPrimary
+                                        : Theme.of(context).colorScheme.onSurface,
+                                  ),
                                 onPressed: () {
                                   setState(() {
                                     _isMovies = true;
+                                    _selectedIndex = 0;
                                     _selectedMedia = null;
                                     titleController.clear();
                                     genreController.clear();
                                     directorController.clear();
-                                    _mediaResults = widget.model.getSearchMovies(_searchQuery);
                                   });
                                 },
-                                child: const Text("Movies"),
+                                child: const Icon(Icons.movie),
                               ),
                             ),
                             const SizedBox(width: 10),
                             Expanded(
                               child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: _selectedIndex == 1
+                                        ? Theme.of(context).colorScheme.primary
+                                        : Theme.of(context).colorScheme.surfaceContainerHighest,
+                                    foregroundColor: _selectedIndex == 1
+                                        ? Theme.of(context).colorScheme.onPrimary
+                                        : Theme.of(context).colorScheme.onSurface,
+                                  ),
                                 onPressed: () {
                                   setState(() {
                                     _isMovies = false;
+                                    _selectedIndex = 1;
                                     _selectedMedia = null;
                                     titleController.clear();
                                     genreController.clear();
                                     directorController.clear();
-                                    _mediaResults = widget.model.getSearchTV(_searchQuery);
                                   });
                                 },
-                                child: const Text("TV Shows"),
+                                child: const Icon(Icons.tv),
                               ),
                             ),
                           ],
                         ),
                         const SizedBox(height: 15),
-
-                        SearchBar().showAll(      //search bar
-                          onTap: () {
-                            setState(() {
-                              _showSearchResults = true;
-                            });
-                          },
-                          onTapOutside: (event) {
-                            FocusScope.of(context).unfocus();
-                          },
-                          onChanged: (value) {
-                            setState(() {
-                              _searchQuery = value.toLowerCase();
-                              _mediaResults = _isMovies
-                                ? widget.model.getSearchMovies(_searchQuery)
-                                : widget.model.getSearchTV(_searchQuery);
-                            });
-                          },
-                        ),
-
-                        SizedBox(height: 15),
 
                         Center(                     //movie/tv show pic
                             child: SizedBox(
@@ -186,7 +198,7 @@ class _AddScreen extends State<AddScreen> {
                             return null;
                           },
                         ),
-                        /*SizedBox(height: 10),
+                        SizedBox(height: 10),
 
                         Padding(                //director field
                           padding: const EdgeInsets.only(left: 25),
@@ -202,13 +214,13 @@ class _AddScreen extends State<AddScreen> {
                             hintText: "Enter director(s) here",
                             errorStyle: TextStyle(fontSize: 17)
                           ),
-                          /*validator: (value) {
+                          validator: (value) {
                             if (value == null || value.isEmpty) {
                               return "Director is missing";
                             }
                             return null;
-                          },*/
-                        ),*/
+                          },
+                        ),
                         SizedBox(height: 20),
 
                         SizedBox(                         //submit button

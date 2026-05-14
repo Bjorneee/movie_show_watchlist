@@ -119,11 +119,19 @@ class _HomeScreen extends State<HomeScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 15),
                   Row(               //movies - shows buttons
                     children: [
                       Expanded(
                           child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: selectTab == 1 || selectTab == 0
+                                  ? Theme.of(context).colorScheme.primary
+                                  : Theme.of(context).colorScheme.surfaceContainerHighest,
+                              foregroundColor: selectTab == 1 || selectTab == 0
+                                  ? Theme.of(context).colorScheme.onPrimary
+                                  : Theme.of(context).colorScheme.onSurface,
+                            ),
                             onPressed: () {
                               setState(() {
                                 selectTab = 1;
@@ -135,6 +143,14 @@ class _HomeScreen extends State<HomeScreen> {
                       SizedBox(width: 10),
                       Expanded(
                           child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: selectTab == 2 || selectTab == 0
+                                  ? Theme.of(context).colorScheme.primary
+                                  : Theme.of(context).colorScheme.surfaceContainerHighest,
+                              foregroundColor: selectTab == 2 || selectTab == 0
+                                  ? Theme.of(context).colorScheme.onPrimary
+                                  : Theme.of(context).colorScheme.onSurface,
+                            ),
                             onPressed: () {
                               setState(() {
                                 selectTab = 2;
@@ -145,14 +161,14 @@ class _HomeScreen extends State<HomeScreen> {
                       )
                     ],
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 15),
                   Expanded(
                     child: GridView.builder(
                       itemCount: filteredList.length,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
-                            childAspectRatio: 170 / 270,
+                            childAspectRatio: 180 / 270,
                             mainAxisSpacing: 12,
                             crossAxisSpacing: 12,
                           ),
@@ -162,8 +178,8 @@ class _HomeScreen extends State<HomeScreen> {
                           children: [
                             Expanded(
                               child: MediaCard(
-                                width: 170,
-                                height: 250,
+                                width: 180,
+                                height: 270,
                                 mediaItem: media,
                                 onClick: () {
                                   widget.model.selectMedia(media);

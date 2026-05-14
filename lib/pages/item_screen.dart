@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:movie_show_watchlist/classes/model.dart';
 import 'package:movie_show_watchlist/classes/media.dart';
 import 'package:movie_show_watchlist/classes/custom_widgets.dart';
-import 'package:movie_show_watchlist/api/tmdb_api.dart';
 
 class ItemScreen extends StatefulWidget {
   final AppModel model;
@@ -34,7 +33,9 @@ class _ItemScreen extends State<ItemScreen> {
 
     titleController = TextEditingController(text: media?.title ?? '');
 
-    directorsController = TextEditingController(text: 'Loading...');    //initialize
+    directorsController = TextEditingController(
+      text: media?.directors?.join(', ') ?? '',
+    );
 
     genresController = TextEditingController(
         text: media?.genres
@@ -45,21 +46,21 @@ class _ItemScreen extends State<ItemScreen> {
     selectedStatus = media?.status ?? Status.notWatched;
     _rating = (media?.rating ?? 0).toDouble(); // cast to double
 
-    _loadDirectors(media);
+    // _loadDirectors(media);
   }
-  Future<void> _loadDirectors(Media? media) async {
-    if (media == null) return;
+  // Future<void> _loadDirectors(Media? media) async {
+  //   if (media == null) return;
 
-    final names = media.type == MediaType.movies
-        ? await getMovieDirectorsAsync(media.id)
-        : await getTVCreatorsAsync(media.id);
+  //   final names = media.type == MediaType.movies
+  //       ? await getMovieDirectorsAsync(media.id)
+  //       : await getTVCreatorsAsync(media.id);
 
-    if (!mounted) return;
+  //   if (!mounted) return;
 
-    setState(() {
-      directorsController.text = names.join(', ');
-    });
-  }
+  //   setState(() {
+  //     directorsController.text = names.join(', ');
+  //   });
+  // }
 
   @override
   void dispose() {
@@ -74,42 +75,23 @@ class _ItemScreen extends State<ItemScreen> {
 
     if (media == null) {
       return Scaffold(
-        appBar: AppBar(title: const Text('My Watch List')),
-        body: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 16),
-              Center(
-                child: Text(
-                  "Media Details",
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w700,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
+        body: SafeArea(
+          child: Center(
+            child: Text(
+              "Tap a movie or TV show from the Home page to view/edit it.",
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                fontSize: 20,
+                fontWeight: FontWeight.w400,
+                letterSpacing: 0.5,
               ),
-              SizedBox(height: 200),
-              Center(
-                child: Text(
-                  "Tap a movie or TV show from the Home page to view/edit it.",
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w400,
-                    letterSpacing: 0.5,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ],
+              textAlign: TextAlign.center,
+            ),
           ),
-        ),
+        )
       );
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('My Watch List')),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(16),
@@ -118,16 +100,6 @@ class _ItemScreen extends State<ItemScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Center(
-                  child: Text(
-                    "Media Details",
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
                 SizedBox(height: 10),
 
                 Center(
