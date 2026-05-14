@@ -236,7 +236,7 @@ class _ItemScreen extends State<ItemScreen> {
                   children: [
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             media.title = titleController.text.trim();
 
@@ -260,6 +260,7 @@ class _ItemScreen extends State<ItemScreen> {
 
                             media.status = selectedStatus;
                             media.rating = _rating; // saves double
+                            await widget.model.updateMedia(media);
                             widget.model.selectMedia(null);
                             widget.onTabChange?.call(0);
                           }
@@ -276,8 +277,8 @@ class _ItemScreen extends State<ItemScreen> {
                           backgroundColor: Colors.red,
                           foregroundColor: Colors.white,
                         ),
-                        onPressed: () {
-                          widget.model.deleteMedia(media);
+                        onPressed: () async {
+                          await widget.model.deleteMedia(media);
                           widget.onTabChange?.call(0);
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(

@@ -6,6 +6,7 @@ import 'package:movie_show_watchlist/classes/custom_widgets.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:device_preview/device_preview.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 // Pages
 import 'package:movie_show_watchlist/pages/home_screen.dart';
@@ -24,6 +25,13 @@ final MainModel mainModel = MainModel();
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+
+  if (!kIsWeb && (Platform.isWindows || Platform.isLinux)) {
+    sqfliteFfiInit();
+    databaseFactory = databaseFactoryFfi;
+  }
+
+  await mainModel.loadSavedMedia();
 
   //app is crashing during startup before Flutter reaches your runApp due to windowManager
   //Android doesn't support this plugin
