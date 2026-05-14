@@ -31,6 +31,7 @@ mixin AppModel on Model {
     notifyListeners();
   }
 
+
   /* Mark a movie/show as watched */
   void markWatched(List<Media> list, int idx) {
     list[idx].status = Status.watched;
